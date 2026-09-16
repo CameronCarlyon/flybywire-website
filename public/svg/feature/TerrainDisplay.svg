@@ -11,23 +11,23 @@
   <desc>A flight management vertical display showing a VNAV path with two diagonal segments and a horizontal cruise segment between waypoints FBW32 and FBW38, with terrain at the bottom.</desc>
 
   <!-- VNAV Path -->
-  <path d="M -125 440 L 105 210 L 265 210 L 700 -225" fill="none" stroke="#01ff00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -100 440 L 130 210 L 240 210 L 700 -250" fill="none" stroke="#01ff00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 
   <!-- FBW32 Diamond -->
-  <g transform="translate(105, 210)">
+  <g transform="translate(130, 210)">
     <path d="M 0 -13 L 13 0 L 0 13 L -13 0 Z" fill="#0d1b2a" stroke="#e0e0e0" stroke-width="5"/>
   </g>
 
   <!-- FBW38 Diamond -->
-  <g transform="translate(265, 210)">
+  <g transform="translate(240, 210)">
     <path d="M 0 -13 L 13 0 L 0 13 L -13 0 Z" fill="#0d1b2a" stroke="#01ff00" stroke-width="5"/>
   </g>
 
   <!-- FBW32 Text -->
-  <text x="155" y="252" text-anchor="middle" font-family="'FBW Display EIS', monospace" font-size="24" font-weight="500" fill="#e8e8e8" letter-spacing="1">FBW32</text>
+  <text x="180" y="252" text-anchor="middle" font-family="'FBW Display EIS', monospace" font-size="24" font-weight="500" fill="#e8e8e8" letter-spacing="1">FBW32</text>
 
   <!-- FBW38 Text -->
-  <text x="315" y="252" text-anchor="middle" font-family="'FBW Display EIS', monospace" font-size="24" font-weight="500" fill="#01ff00" letter-spacing="1">FBW38</text>
+  <text x="290" y="252" text-anchor="middle" font-family="'FBW Display EIS', monospace" font-size="24" font-weight="500" fill="#01ff00" letter-spacing="1">FBW38</text>
 
   <!-- Terrain Radar: Ground -->
   <path d="M -125 440 L -125 370 L -25 370 L -25 350 L 25 350 L 25 335 L 85 335 L 85 350 L 145 350 L 145 370 L 195 370 L 195 380 L 275 380 L 275 440 Z" fill="#7a3e10"/>
