@@ -64,6 +64,7 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                 </div>
                 <FeatureCarousel theme="light">
                     <WatermarkTile
+                        gradient
                         title="King of the Skies"
                         imageSrc="/img/a380x/feature-a380x-takeoff.webp"
                         blurDataURL={blurDataURLs['/img/a380x/feature-a380x-takeoff.webp']}
@@ -96,6 +97,7 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         }
                     />
                     <WatermarkTile
+                        gradient
                         title="Electronic Centralised Aircraft Monitor (ECAM)"
                         watermarkText="ECAM"
                         imageSrc="/img/a380x/feature-ecam.webp"
@@ -118,6 +120,7 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         }
                     />
                     <WatermarkTile
+                        gradient
                         title="Flight Warning System (FWS) & Emergency Procedures"
                         watermarkText="FWS & EMER PROC "
                         imageSrc="/img/a380x/feature-fws-emer-proc.webp"
@@ -139,6 +142,7 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         }
                     />
                     <WatermarkTile
+                        gradient
                         title="Fuel, Hydraulics & Electrical Systems"
                         imageSrc="/img/a380x/feature-systems.webp"
                         blurDataURL={blurDataURLs['/img/a380x/feature-systems.webp']}
@@ -161,6 +165,7 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         }
                     />
                     <WatermarkTile
+                        gradient
                         title="Custom Soundscape"
                         imageSrc="/img/a380x/feature-sounds.webp"
                         blurDataURL={blurDataURLs['/img/a380x/feature-sounds.webp']}
@@ -182,6 +187,7 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         }
                     />
                     <WatermarkTile
+                        gradient
                         title="Vertical Display (VD) and Terrain Radar"
                         description={
                             'From climb to managed descent, a precise vertical profile respecting altitude and speed constraints at each waypoint is computed by the FMS. '

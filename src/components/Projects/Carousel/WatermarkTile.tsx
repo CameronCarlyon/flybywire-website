@@ -12,6 +12,7 @@ type WatermarkTileProps = {
     isActive?: boolean;
     priority?: boolean;
     blurDataURL?: string;
+    gradient?: boolean;
 };
 
 const watermarkRows = Array.from({ length: 12 });
@@ -32,6 +33,7 @@ const WatermarkTile = ({
     isActive = false,
     priority = false,
     blurDataURL,
+    gradient = false,
 }: WatermarkTileProps) => (
     <div
         className={twMerge(
@@ -39,8 +41,15 @@ const WatermarkTile = ({
             className,
         )}
     >
-        {/* Background */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #0f1620, #172844)' }}>
+        {/* Background + cyan glow */}
+        <div
+            className="absolute inset-0"
+            style={{
+                background: gradient
+                    ? 'radial-gradient(20rem 12rem at 12rem 12rem, rgba(2, 219, 254, 0.18) 0%, transparent 100%), linear-gradient(to top, #0f1620, #172844)'
+                    : 'linear-gradient(to top, #0f1620, #172844)',
+            }}
+        >
             <div
                 className="absolute inset-0 opacity-[0.03] pointer-events-none select-none"
                 style={{ transform: 'rotate(-45deg) scale(4)' }}
