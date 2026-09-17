@@ -118,7 +118,7 @@ const WatermarkTile = ({
         </div>
 
         {/* Gradient for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1620]/75 via-transparent to-transparent" />
 
         {/* Content overlay */}
         <div className="relative flex h-full w-full items-end">
@@ -132,9 +132,9 @@ const WatermarkTile = ({
             {/* Right side — fixed width, overflows outside when inactive */}
             <div className="relative flex h-full min-w-[18.6667rem]">
                 {/* Gradient for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/25 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0f1620]/50 pointer-events-none" />
                 {description && (
-                    <span className="relative z-10 p-4 md:p-6 font-display text-right text-white" style={{ textShadow: '0 0px 20px rgba(0, 0, 0, 1)' }}>
+                    <span className="relative z-10 p-4 md:p-6 font-display text-right text-white" style={{ textShadow: '0 1px 4px #0f1620, 0 0 10px #0f1620, 0 0 30px #0f1620, 0 0 60px #0f1620' }}>
                         {description}
                     </span>
                 )}
