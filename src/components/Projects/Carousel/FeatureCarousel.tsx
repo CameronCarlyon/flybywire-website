@@ -48,7 +48,7 @@ const FeatureCarousel = ({ children, theme = 'dark', className }: FeatureCarouse
                     role="region"
                     aria-roledescription="carousel"
                     aria-label="Feature carousel"
-                    className="flex h-96 items-center gap-4 will-change-transform transition-transform duration-500 ease-in-out"
+                    className="flex h-96 items-center gap-4 motion-safe:will-change-transform motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-in-out"
                     style={{ transform: `translateX(${translateX}rem)`, width: '100%' }}
                 >
                     {slides.map((slide, index) => {
@@ -67,7 +67,7 @@ const FeatureCarousel = ({ children, theme = 'dark', className }: FeatureCarouse
                                     'shrink-0 h-96 w-96',
                                     isActive ? 'cursor-default' : 'cursor-pointer',
                                     isActive && (isFinale ? 'w-full' : 'md:w-[42.6667rem]'),
-                                    hasMounted && 'transition-width duration-500 ease-in-out',
+                                    hasMounted && 'motion-safe:transition-width motion-safe:duration-500 motion-safe:ease-in-out',
                                 )}
                                 onClick={() => handleGoTo(index)}
                             >

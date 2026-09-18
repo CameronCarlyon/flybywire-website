@@ -1,6 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { NavigationButton } from '../Projects/Carousel/CarouselPrimitives';
+import useReducedMotion from '../../hooks/useReducedMotion';
 
 type ViewerModalProps = {
     imageSrc: string;
@@ -23,6 +24,10 @@ const ViewerModal = ({
     sourceRect,
     sourceIsActive,
 }: ViewerModalProps) => {
+    const reducedMotion = useReducedMotion();
+    const reducedMotionRef = useRef(reducedMotion);
+    reducedMotionRef.current = reducedMotion;
+
     const [isFullResLoaded, setIsFullResLoaded] = useState(false);
     const [slidingOut, setSlidingOut] = useState<{ src: string; direction: 'left' | 'right' } | null>(null);
     const backdropRef = useRef<HTMLDivElement>(null);
@@ -46,7 +51,8 @@ const ViewerModal = ({
         const z = zoomRef.current;
         if (z <= 1) {
             panRef.current = { x: 0, y: 0 };
-            wrapper.style.transition = isDraggingRef.current ? 'none' : 'transform 150ms ease-out';
+            const noTransition = isDraggingRef.current || reducedMotionRef.current;
+            wrapper.style.transition = noTransition ? 'none' : 'transform 150ms ease-out';
             wrapper.style.transformOrigin = '0 0';
             wrapper.style.transform = 'translate(0px, 0px) scale(1)';
         } else {
@@ -55,7 +61,8 @@ const ViewerModal = ({
                 x: Math.min(0, Math.max(width * (1 - z), panRef.current.x)),
                 y: Math.min(0, Math.max(height * (1 - z), panRef.current.y)),
             };
-            wrapper.style.transition = isDraggingRef.current ? 'none' : 'transform 150ms ease-out';
+            const noTransition = isDraggingRef.current || reducedMotionRef.current;
+            wrapper.style.transition = noTransition ? 'none' : 'transform 150ms ease-out';
             wrapper.style.transformOrigin = '0 0';
             wrapper.style.transform = `translate(${panRef.current.x}px, ${panRef.current.y}px) scale(${z})`;
         }
@@ -94,7 +101,7 @@ const ViewerModal = ({
     useLayoutEffect(() => {
         const backdrop = backdropRef.current;
         const container = containerRef.current;
-        if (!backdrop || !container || !sourceRect) return;
+        if (!backdrop || !container || !sourceRect || reducedMotionRef.current) return;
 
         const params = getAnimParams(sourceRect);
         if (!params) return;
@@ -121,6 +128,8 @@ const ViewerModal = ({
         if (!isClosing || !backdrop || !container) return;
 
         resetZoom();
+
+        if (reducedMotionRef.current) return;
 
         backdrop.style.transition = 'opacity 400ms ease-in-out';
         backdrop.style.opacity = '0';
@@ -277,7 +286,9 @@ const ViewerModal = ({
         if (slidingOut || isClosing) return;
         resetZoom();
         setIsFullResLoaded(false);
-        setSlidingOut({ src: imageSrc, direction: 'right' });
+        if (!reducedMotionRef.current) {
+            setSlidingOut({ src: imageSrc, direction: 'right' });
+        }
         onPrevious();
     }, [onPrevious, imageSrc, slidingOut, isClosing, resetZoom]);
 
@@ -285,7 +296,9 @@ const ViewerModal = ({
         if (slidingOut || isClosing) return;
         resetZoom();
         setIsFullResLoaded(false);
-        setSlidingOut({ src: imageSrc, direction: 'left' });
+        if (!reducedMotionRef.current) {
+            setSlidingOut({ src: imageSrc, direction: 'left' });
+        }
         onNext();
     }, [onNext, imageSrc, slidingOut, isClosing, resetZoom]);
 

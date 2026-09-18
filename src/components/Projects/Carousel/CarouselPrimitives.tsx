@@ -85,7 +85,7 @@ export const DotIndicator = ({
         type="button"
         onClick={onClick}
         className={twMerge(
-            'h-2 rounded-full transition-all duration-300',
+            'h-2 rounded-full motion-safe:transition-all motion-safe:duration-300',
             isActive ? `w-8 ${activeColor}` : `w-2 ${inactiveColor} hover:opacity-75`,
         )}
         aria-label={isActive ? 'Current slide' : 'Go to slide'}

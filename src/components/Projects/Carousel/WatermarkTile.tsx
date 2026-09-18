@@ -99,8 +99,8 @@ const WatermarkTile = ({
         <div className="absolute inset-0 overflow-hidden">
             <div
                 className={twMerge(
-                    'absolute left-0 top-0 h-96 w-96 md:w-[42.6667rem] transition-transform duration-300',
-                    !isActive && 'group-hover:scale-105',
+                    'absolute left-0 top-0 h-96 w-96 md:w-[42.6667rem] motion-safe:transition-transform motion-safe:duration-300',
+                    !isActive && 'motion-safe:group-hover:scale-105',
                 )}
                 style={{ transformOrigin: '12rem center' }}
             >

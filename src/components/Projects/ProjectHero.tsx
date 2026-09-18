@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useRef } from 'react';
 import Section from '../Utils/Section';
 import Container from '../Utils/Container';
 import Button from '../Button/Button';
+import useReducedMotion from '../../hooks/useReducedMotion';
 
 interface ButtonConfig {
     label: string;
@@ -26,25 +27,31 @@ interface ProjectHeroProps {
 
 const VideoBackground = (props: { HeroVideo?: string; HeroVideoFallback?: string; HeroVideoPoster?: string }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const reducedMotion = useReducedMotion();
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.play().catch(() => {});
+            if (reducedMotion) {
+                videoRef.current.pause();
+            } else {
+                videoRef.current.play().catch(() => {});
+            }
         }
-    }, []);
+    }, [reducedMotion]);
 
     if (!props.HeroVideo && !props.HeroVideoFallback && !props.HeroVideoPoster) {
         return null;
     }
 
-    if (!props.HeroVideo && !props.HeroVideoFallback) {
-        return (
+    if (reducedMotion || (!props.HeroVideo && !props.HeroVideoFallback)) {
+        return props.HeroVideoPoster ? (
             <img
                 src={props.HeroVideoPoster}
-                alt="Background"
-                className="absolute -z-10 inset-0 object-cover"
+                alt=""
+                className="absolute -z-10 inset-0 h-full w-full object-cover"
+                aria-hidden="true"
             />
-        );
+        ) : null;
     }
 
     return (

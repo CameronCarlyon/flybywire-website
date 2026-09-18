@@ -41,7 +41,7 @@ const GalleryTile = ({
             }
         }}
     >
-        <div className="absolute inset-0 overflow-hidden transition-transform duration-300 hover:scale-105">
+        <div className="absolute inset-0 overflow-hidden motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:scale-105">
             <Image
                 src={imageSrc}
                 alt={imageAlt}

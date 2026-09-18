@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import useReducedMotion from '../../../hooks/useReducedMotion';
 
 type FinaleTileProps = {
     title: string;
@@ -19,16 +20,21 @@ const FinaleTile = ({
     className,
     isActive = false,
 }: FinaleTileProps) => {
+    const reducedMotion = useReducedMotion();
     const [animateIn, setAnimateIn] = useState(false);
 
     useEffect(() => {
         if (isActive) {
+            if (reducedMotion) {
+                setAnimateIn(true);
+                return () => {};
+            }
             const timer = setTimeout(() => setAnimateIn(true), 500);
             return () => clearTimeout(timer);
         }
         setAnimateIn(false);
         return () => {};
-    }, [isActive]);
+    }, [isActive, reducedMotion]);
 
     return (
         <div
@@ -44,8 +50,8 @@ const FinaleTile = ({
             <div className="absolute inset-0 z-10 flex items-center justify-center">
                 <span
                     className={twMerge(
-                        'font-bold text-center text-xl text-[#0a1929] transition-transform duration-300',
-                        !isActive && 'group-hover:scale-105',
+                        'font-bold text-center text-xl text-[#0a1929] motion-safe:transition-transform motion-safe:duration-300',
+                        !isActive && 'motion-safe:group-hover:scale-105',
                     )}
                 >
                     {title}
@@ -74,10 +80,12 @@ const FinaleTile = ({
                         style={{
                             ...pos,
                             opacity: animateIn ? 0.65 : 0,
-                            transform: animateIn ? 'scale(1)' : 'scale(0)',
-                            transition: animateIn
-                                ? `opacity 0.1s ease-out ${index * 80}ms, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 80}ms`
-                                : 'opacity 0.1s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                            transform: animateIn ? 'scale(1)' : (reducedMotion ? 'scale(1)' : 'scale(0)'),
+                            transition: reducedMotion
+                                ? 'none'
+                                : animateIn
+                                    ? `opacity 0.1s ease-out ${index * 80}ms, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 80}ms`
+                                    : 'opacity 0.1s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                         }}
                     >
                         {feature}

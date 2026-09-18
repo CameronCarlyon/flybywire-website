@@ -2,6 +2,7 @@ import { Children, cloneElement, useState, useCallback, useEffect, useRef, React
 import { twMerge } from 'tailwind-merge';
 import { CarouselControls, useCarouselTheme } from './CarouselPrimitives';
 import ViewerModal from '../../Utils/ViewerModal';
+import useReducedMotion from '../../../hooks/useReducedMotion';
 
 type GalleryCarouselProps = {
     children: ReactNode;
@@ -18,6 +19,7 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
     const [currentIndex, setCurrentIndex] = useState(0);
     const [modalSlideIndex, setModalSlideIndex] = useState<number | null>(null);
     const [isClosing, setIsClosing] = useState(false);
+    const reducedMotion = useReducedMotion();
     const [sourceRect, setSourceRect] = useState<DOMRect | null>(null);
     const slideRefs = useRef<Map<number, HTMLDivElement>>(new Map());
     const [hasMounted, setHasMounted] = useState(false);
@@ -76,8 +78,8 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
             setModalSlideIndex(null);
             setIsClosing(false);
             setSourceRect(null);
-        }, 400);
-    }, [modalSlideIndex]);
+        }, reducedMotion ? 10 : 400);
+    }, [modalSlideIndex, reducedMotion]);
 
     const handleModalNext = useCallback(() => {
         setModalSlideIndex((prev) => (prev !== null ? (prev + 1) % total : null));
@@ -102,7 +104,7 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
                     role="region"
                     aria-roledescription="carousel"
                     aria-label="Gallery carousel"
-                    className="flex h-96 items-center gap-4 will-change-transform transition-transform duration-500 ease-in-out"
+                    className="flex h-96 items-center gap-4 motion-safe:will-change-transform motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-in-out"
                     style={{ transform: `translateX(${translateX}rem)`, width: 'max-content' }}
                 >
                     {slides.map((slide, index) => {
@@ -123,7 +125,7 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
                                 className={twMerge(
                                     'shrink-0 h-96 cursor-pointer w-96',
                                     isActive && 'md:w-[42.6667rem]',
-                                    hasMounted && 'transition-[width] duration-500 ease-in-out',
+                                    hasMounted && 'motion-safe:transition-[width] motion-safe:duration-500 motion-safe:ease-in-out',
                                 )}
                                 onClick={() => handleTileClick(index)}
                             >
