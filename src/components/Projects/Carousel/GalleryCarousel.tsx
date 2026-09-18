@@ -1,4 +1,4 @@
-import { Children, cloneElement, useState, useCallback, useEffect, ReactNode } from 'react';
+import { Children, cloneElement, useState, useCallback, useEffect, useRef, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { CarouselControls, useCarouselTheme } from './CarouselPrimitives';
 import ViewerModal from '../../Utils/ViewerModal';
@@ -18,6 +18,8 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
     const [currentIndex, setCurrentIndex] = useState(0);
     const [modalSlideIndex, setModalSlideIndex] = useState<number | null>(null);
     const [isClosing, setIsClosing] = useState(false);
+    const [sourceRect, setSourceRect] = useState<DOMRect | null>(null);
+    const slideRefs = useRef<Map<number, HTMLDivElement>>(new Map());
     const [hasMounted, setHasMounted] = useState(false);
 
     useEffect(() => {
@@ -27,34 +29,11 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
     // Lock body scroll when modal is open
     useEffect(() => {
         if (modalSlideIndex !== null) {
-            const { scrollY } = window;
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.left = '0';
-            document.body.style.right = '0';
-            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
         } else {
-            const scrollY = document.body.style.top;
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
-            document.body.style.overflow = '';
-            if (scrollY) {
-                window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-            }
+            document.documentElement.style.overflow = '';
         }
-        return () => {
-            const scrollY = document.body.style.top;
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
-            document.body.style.overflow = '';
-            if (scrollY) {
-                window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-            }
-        };
+        return () => { document.documentElement.style.overflow = ''; };
     }, [modalSlideIndex]);
 
     const handleNext = useCallback(() => {
@@ -71,6 +50,8 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
 
     const handleTileClick = useCallback((index: number) => {
         if (index === currentIndex) {
+            const el = slideRefs.current.get(index);
+            if (el) setSourceRect(el.getBoundingClientRect());
             setModalSlideIndex(index);
         } else {
             setCurrentIndex(index);
@@ -78,12 +59,25 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
     }, [currentIndex]);
 
     const handleCloseModal = useCallback(() => {
+        let tileVisible = false;
+        if (modalSlideIndex !== null) {
+            const el = slideRefs.current.get(modalSlideIndex);
+            if (el) {
+                const rect = el.getBoundingClientRect();
+                if (rect.right > 0 && rect.left < window.innerWidth) {
+                    setSourceRect(rect);
+                    tileVisible = true;
+                }
+            }
+        }
+        if (!tileVisible) setSourceRect(null);
         setIsClosing(true);
         setTimeout(() => {
             setModalSlideIndex(null);
             setIsClosing(false);
-        }, 300);
-    }, []);
+            setSourceRect(null);
+        }, 400);
+    }, [modalSlideIndex]);
 
     const handleModalNext = useCallback(() => {
         setModalSlideIndex((prev) => (prev !== null ? (prev + 1) % total : null));
@@ -118,6 +112,10 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
                         return (
                             <div
                                 key={index}
+                                ref={(el) => {
+                                    if (el) slideRefs.current.set(index, el);
+                                    else slideRefs.current.delete(index);
+                                }}
                                 role="group"
                                 aria-roledescription="slide"
                                 aria-label={`Slide ${index + 1} of ${total}`}
@@ -158,6 +156,8 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
                     onPrevious={handleModalPrevious}
                     onNext={handleModalNext}
                     isClosing={isClosing}
+                    sourceRect={sourceRect}
+                    sourceIsActive={modalSlideIndex === currentIndex}
                 />
             )}
         </div>

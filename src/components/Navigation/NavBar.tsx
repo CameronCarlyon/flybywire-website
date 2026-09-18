@@ -55,8 +55,7 @@ const NavBar = () => {
 
     return (
         <nav
-            className={twMerge('fixed w-full py-4 text-white transition', bgClass)}
-            style={{ zIndex: '9999' }}
+            className={twMerge('fixed z-40 w-full py-4 text-white transition', bgClass)}
         >
             <Container className="flex flex-row items-center justify-between">
                 <Link legacyBehavior href="/">
