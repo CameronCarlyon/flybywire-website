@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import Section from '../Utils/Section';
+import Container from '../Utils/Container';
 import Button from '../Button/Button';
 
 interface ButtonConfig {
@@ -36,13 +37,19 @@ const DownloadSectionComponent = ({
     const buttonsToRender = buttons ?? defaultButtons;
 
     return (
-        <Section className="relative flex flex-col justify-center">
-            <div className="absolute inset-0 -z-10" style={{ background: 'rgba(255, 255, 255, 0.25)' }} />
-            <div className="flex flex-col text-center justify-center gap-4">
+        <Section className="relative flex flex-col justify-center !py-32">
+            <Container className="text-center justify-center gap-10">
                 {heading && (
-                    <h2 className="font-semibold text-black">{heading}</h2>
+                    <div className="flex flex-col items-center gap-4">
+                        <h2 className="font-bold text-secondary">{heading}</h2>
+                        <span
+                            className="block h-1 w-16 rounded-full"
+                            style={{ background: 'linear-gradient(90deg, var(--color-brand-cyan-dark), var(--color-brand-cyan-main))' }}
+                            aria-hidden="true"
+                        />
+                    </div>
                 )}
-                <p className="max-w-xl mx-auto text-center text-black/80">{description}</p>
+                <p className="max-w-xl mx-auto text-center text-black/70">{description}</p>
                 <ButtonGroup>
                     {buttonsToRender.map((button, index) => (
                         <Button
@@ -56,7 +63,7 @@ const DownloadSectionComponent = ({
                         </Button>
                     ))}
                 </ButtonGroup>
-            </div>
+            </Container>
         </Section>
     );
 };
