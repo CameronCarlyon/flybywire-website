@@ -38,7 +38,7 @@ const SystemRequirementsSection: React.FC<SystemRequirementsSectionProps> = ({
     flyingByWireNotice,
     disclaimer,
 }) => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8 md:gap-4">
         <div>
             <h3>System Requirements</h3>
             <p>

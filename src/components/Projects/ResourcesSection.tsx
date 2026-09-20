@@ -18,7 +18,7 @@ interface ResourcesSectionProps {
 }
 
 const ResourcesSection: React.FC<ResourcesSectionProps> = ({ title, description, resources }) => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8 md:gap-4">
         <div>
             <h2>{title}</h2>
             <p>{description}</p>
