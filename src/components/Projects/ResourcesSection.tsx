@@ -1,4 +1,6 @@
 import Button from '../Button/Button';
+import useScrollReveal from '../../hooks/useScrollReveal';
+import useReducedMotion from '../../hooks/useReducedMotion';
 
 interface ResourceItem {
     description: string;
@@ -17,26 +19,36 @@ interface ResourcesSectionProps {
     resources: ResourceItem[];
 }
 
-const ResourcesSection: React.FC<ResourcesSectionProps> = ({ title, description, resources }) => (
-    <div className="flex flex-col gap-8 md:gap-4">
-        <div>
-            <h2>{title}</h2>
-            <p>{description}</p>
+const ResourcesSection: React.FC<ResourcesSectionProps> = ({ title, description, resources }) => {
+    const { ref, revealed, shouldAnimate } = useScrollReveal<HTMLDivElement>();
+    const reducedMotion = useReducedMotion();
+    const animate = shouldAnimate && !reducedMotion;
+
+    return (
+        <div ref={ref} className="flex flex-col gap-8 md:gap-4">
+            <div
+                className={!revealed ? 'motion-safe:opacity-0' : ''}
+                style={animate ? { animation: 'reveal-fade-in 0.5s ease-out both' } : undefined}
+            >
+                <h2>{title}</h2>
+                <p>{description}</p>
+            </div>
+            <div className="flex flex-wrap gap-6">
+                {resources.map((resource, index) => (
+                    <div
+                        key={index}
+                        className={`flex flex-col justify-between min-h-[100%] w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] gap-4${!revealed ? ' motion-safe:opacity-0' : ''}`}
+                        style={animate ? { animation: `reveal-fade-in 0.5s ease-out ${0.2 + index * 0.1}s both` } : undefined}
+                    >
+                        <p>{resource.description}</p>
+                        <Button theme={resource.button.theme} link={resource.button.link} target={resource.button.target} rel={resource.button.rel}>
+                            {resource.button.label}
+                        </Button>
+                    </div>
+                ))}
+            </div>
         </div>
-        <div className="flex flex-wrap gap-6">
-            {resources.map((resource, index) => (
-                <div
-                    key={index}
-                    className="flex flex-col justify-between min-h-[100%] w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] gap-4 "
-                >
-                    <p>{resource.description}</p>
-                    <Button theme={resource.button.theme} link={resource.button.link} target={resource.button.target} rel={resource.button.rel}>
-                        {resource.button.label}
-                    </Button>
-                </div>
-            ))}
-        </div>
-    </div>
-);
+    );
+};
 
 export default ResourcesSection;

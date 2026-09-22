@@ -84,7 +84,7 @@ const FinaleTile = ({
                             transition: reducedMotion
                                 ? 'none'
                                 : animateIn
-                                    ? `opacity 0.1s ease-out ${index * 80}ms, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 80}ms`
+                                    ? `opacity 0.1s ease-out ${index * 100}ms, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 100}ms`
                                     : 'opacity 0.1s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                         }}
                     >

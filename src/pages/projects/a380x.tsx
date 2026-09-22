@@ -58,16 +58,12 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
         />
         {/* Features Section */}
         <Section id="features-section" className="relative overflow-hidden" theme="light">
-            <Container className="gap-6">
-                <div>
-                    <h2>Discover the A380X</h2>
-                </div>
-                <FeatureCarousel theme="light">
+            <Container>
+                <FeatureCarousel title="Discover the A380X" theme="light">
                     <WatermarkTile
                         gradient
                         title="King of the Skies"
                         imageSrc="/img/a380x/feature-a380x-takeoff.webp"
-                        blurDataURL={blurDataURLs['/img/a380x/feature-a380x-takeoff.webp']}
                         imageAlt=""
                         watermarkText="A380X"
                         description={
@@ -101,7 +97,6 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         title="Electronic Centralised Aircraft Monitor (ECAM)"
                         watermarkText="ECAM"
                         imageSrc="/img/a380x/feature-ecam.webp"
-                        blurDataURL={blurDataURLs['/img/a380x/feature-ecam.webp']}
                         imageAlt="A graphic of the TAXI checklist on the Electronic Centralised Aircraft Monitor (ECAM) display."
                         description={
                             'The A380\'s sophisticated ECAM system is faithfully reproduced, with 256 abnormal procedures spanning 246 sensed faults, '
@@ -124,7 +119,6 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         title="Flight Warning System (FWS) & Emergency Procedures"
                         watermarkText="FWS & EMER PROC "
                         imageSrc="/img/a380x/feature-fws-emer-proc.webp"
-                        blurDataURL={blurDataURLs['/img/a380x/feature-fws-emer-proc.webp']}
                         imageAlt="A graphic of the FIRE SMOKE/FUMES Abnormal Procedure (ABN PROC) checklist."
                         description={
                             'Beyond normal ECAM faults, the FWS includes non-sensed emergency procedures such as EMER DESCENT and EMER EVAC, accessible via the ABN PROC button, '
@@ -145,7 +139,6 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         gradient
                         title="Fuel, Hydraulics & Electrical Systems"
                         imageSrc="/img/a380x/feature-systems.webp"
-                        blurDataURL={blurDataURLs['/img/a380x/feature-systems.webp']}
                         imageAlt="Multiple graphics of various displays on the System Display (SD), including electrical, fuel, and hydraulics."
                         watermarkText="Systems"
                         description={
@@ -168,7 +161,6 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         gradient
                         title="Custom Soundscape"
                         imageSrc="/img/a380x/feature-sounds.webp"
-                        blurDataURL={blurDataURLs['/img/a380x/feature-sounds.webp']}
                         imageAlt="An image of the A380X's massive engines with a soundwave graphic overlaid on top."
                         watermarkText="Sounds"
                         description={
@@ -195,7 +187,6 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                             + 'Three independently simulated radio altimeters feed a full GPWS suite, triggering aural warnings and visual PFD alerts.'
                         }
                         imageSrc="/svg/feature/TerrainDisplay.svg"
-                        blurDataURL={blurDataURLs['/svg/feature/TerrainDisplay.svg']}
                         imageAlt="A graphic of the Vertical Display and Terrain Radar."
                         watermarkText="VNAV"
                     />
@@ -258,9 +249,8 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
         </Section>
         {/* Gallery Section */}
         <Section theme="light" className="overflow-hidden">
-            <Container className="gap-4">
-                <h2>Gallery</h2>
-                <GalleryCarousel theme="light">
+            <Container>
+                <GalleryCarousel title="Gallery" theme="light">
                     {galleryImages.map((id) => {
                         const src = `/img/a380x/gallery-${id}.webp`;
                         return (
@@ -325,18 +315,12 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
 export default A380X;
 
 const FEATURE_IMAGE_PATHS = [
-    '/img/a380x/feature-a380x-takeoff.webp',
     '/img/a380x/feature-avionics-suite.webp',
     '/img/a380x/feature-fms.webp',
-    '/img/a380x/feature-ecam.webp',
     '/img/a380x/feature-oans.webp',
-    '/img/a380x/feature-fws-emer-proc.webp',
     '/img/a380x/feature-fly-by-wire-controls.webp',
-    '/img/a380x/feature-systems.webp',
     '/img/a380x/feature-environment.webp',
-    '/img/a380x/feature-sounds.webp',
     '/img/a380x/feature-wing-flex.webp',
-    '/svg/feature/TerrainDisplay.svg',
     '/img/a380x/feature-flypadOS.webp',
 ];
 

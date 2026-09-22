@@ -81,6 +81,7 @@ const ButtonGroup = (props: {children: ReactNode}) => (
 );
 
 const Hero = (props: ProjectHeroProps) => {
+    const reducedMotion = useReducedMotion();
     const strokeStyle: React.CSSProperties = {
         WebkitTextStroke: '3px var(--color-brand-cyan-main)',
         color: 'transparent',
@@ -108,34 +109,50 @@ const Hero = (props: ProjectHeroProps) => {
             <Container className="h-144 justify-center" display="flex flex-col">
                 <div className="mx-auto max-w-prose text-center">
                     {props.projectHeading && (
-                        <h4 className="font-normal leading-4 text-primary">{props.projectHeading}</h4>
+                        <h4
+                            className="font-normal leading-4 text-primary motion-safe:opacity-0"
+                            style={!reducedMotion ? { animation: 'reveal-fade-in-up 0.5s ease-out 0.5s both' } : undefined}
+                        >
+                            {props.projectHeading}
+                        </h4>
                     )}
                     {props.projectSubheading && (
                         <h2 className="mb-6 font-semibold text-white">{props.projectSubheading}</h2>
                     )}
                     {props.projectTitle && (
-                        <div className="inline-flex items-baseline">
+                        <div
+                            className="inline-flex items-baseline motion-safe:opacity-0"
+                            style={!reducedMotion ? { animation: 'fade-scale-in 0.5s ease-out both' } : undefined}
+                        >
                             <h1 className="text-white uppercase">{props.projectTitle}</h1>
-                            <h1 style={strokeStyle}>X</h1>
+                            <h1 style={{ ...strokeStyle, ...(!reducedMotion ? { animation: 'reveal-glow 0.8s ease-out 0.7s both' } : {}) }}>X</h1>
                         </div>
                     )}
-                    <p className="max-w-xl">
+                    <p
+                        className="max-w-xl motion-safe:opacity-0"
+                        style={!reducedMotion ? { animation: 'reveal-fade-in-down 0.5s ease-out 0.5s both' } : undefined}
+                    >
                         {props.projectDescription}
                     </p>
-                    <ButtonGroup>
-                        {buttons.map((button, index) => (
-                            <Button
-                                key={index}
-                                theme={button.theme}
-                                link={button.link}
-                                onClick={button.onClick}
-                                target={button.target}
-                                rel={button.rel}
-                            >
-                                {button.label}
-                            </Button>
-                        ))}
-                    </ButtonGroup>
+                    <div
+                        className="motion-safe:opacity-0"
+                        style={!reducedMotion ? { animation: 'reveal-fade-in 0.5s ease-out 1s both' } : undefined}
+                    >
+                        <ButtonGroup>
+                            {buttons.map((button, index) => (
+                                <Button
+                                    key={index}
+                                    theme={button.theme}
+                                    link={button.link}
+                                    onClick={button.onClick}
+                                    target={button.target}
+                                    rel={button.rel}
+                                >
+                                    {button.label}
+                                </Button>
+                            ))}
+                        </ButtonGroup>
+                    </div>
                 </div>
             </Container>
         </Section>

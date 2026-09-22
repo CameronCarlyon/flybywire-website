@@ -1,9 +1,11 @@
 import { Children, cloneElement, useState, useCallback, ReactNode, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { CarouselControls, useCarouselTheme } from './CarouselPrimitives';
+import useScrollReveal from '../../../hooks/useScrollReveal';
 
 type FeatureCarouselProps = {
     children: ReactNode;
+    title?: string;
     theme?: 'light' | 'dark';
     className?: string;
 };
@@ -15,11 +17,12 @@ const GAP_REM = 1; // gap-4
  * FeatureCarousel — Tiles expand from 1:1 to 16:9 when active on md+ viewports.
  * On sm viewports, tiles remain locked at 1:1 (w-96).
  */
-const FeatureCarousel = ({ children, theme = 'dark', className }: FeatureCarouselProps) => {
+const FeatureCarousel = ({ children, title, theme = 'dark', className }: FeatureCarouselProps) => {
     const slides = Children.toArray(children);
     const total = slides.length;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [hasMounted, setHasMounted] = useState(false);
+    const { ref: revealRef, revealed, shouldAnimate } = useScrollReveal<HTMLDivElement>();
 
     useEffect(() => {
         setHasMounted(true);
@@ -41,7 +44,10 @@ const FeatureCarousel = ({ children, theme = 'dark', className }: FeatureCarouse
     const { containerTheme } = useCarouselTheme(theme);
 
     return (
-        <div className={twMerge('flex flex-col gap-6', containerTheme, className)}>
+        <div ref={revealRef} className={twMerge('flex flex-col gap-6', containerTheme, className)}>
+            {title && (
+                <h2 className={twMerge(!revealed && 'motion-safe:opacity-0', shouldAnimate && 'reveal-fade-in')}>{title}</h2>
+            )}
             {/* Viewport */}
             <div className="w-full">
                 <div
@@ -65,10 +71,13 @@ const FeatureCarousel = ({ children, theme = 'dark', className }: FeatureCarouse
                                 aria-hidden={!isActive}
                                 className={twMerge(
                                     'shrink-0 h-96 w-96',
+                                    !revealed && 'reveal-hidden',
+                                    shouldAnimate && 'reveal-animate',
                                     isActive ? 'cursor-default' : 'cursor-pointer',
                                     isActive && (isFinale ? 'w-full' : 'md:w-[42.6667rem]'),
-                                    hasMounted && 'motion-safe:transition-width motion-safe:duration-500 motion-safe:ease-in-out',
+                                    hasMounted && 'motion-safe:transition-[width] motion-safe:duration-500 motion-safe:ease-in-out',
                                 )}
+                                style={shouldAnimate ? { animationDelay: `${200 + index * 100}ms` } : undefined}
                                 onClick={() => handleGoTo(index)}
                             >
                                 {cloneElement(

@@ -3,9 +3,11 @@ import { twMerge } from 'tailwind-merge';
 import { CarouselControls, useCarouselTheme } from './CarouselPrimitives';
 import ViewerModal from '../../Utils/ViewerModal';
 import useReducedMotion from '../../../hooks/useReducedMotion';
+import useScrollReveal from '../../../hooks/useScrollReveal';
 
 type GalleryCarouselProps = {
     children: ReactNode;
+    title?: string;
     theme?: 'light' | 'dark';
     className?: string;
 };
@@ -13,7 +15,7 @@ type GalleryCarouselProps = {
 const INACTIVE_W_REM = 24; // w-96
 const GAP_REM = 1; // gap-4
 
-const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouselProps) => {
+const GalleryCarousel = ({ children, title, theme = 'dark', className }: GalleryCarouselProps) => {
     const slides = Children.toArray(children);
     const total = slides.length;
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,6 +25,7 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
     const [sourceRect, setSourceRect] = useState<DOMRect | null>(null);
     const slideRefs = useRef<Map<number, HTMLDivElement>>(new Map());
     const [hasMounted, setHasMounted] = useState(false);
+    const { ref: revealRef, revealed, shouldAnimate } = useScrollReveal<HTMLDivElement>();
 
     useEffect(() => {
         setHasMounted(true);
@@ -97,7 +100,10 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
     const modalImageAlt = (modalSlide as React.ReactElement)?.props?.imageAlt || 'Screenshot';
 
     return (
-        <div className={twMerge('flex flex-col gap-6', containerTheme, className)}>
+        <div ref={revealRef} className={twMerge('flex flex-col gap-6', containerTheme, className)}>
+            {title && (
+                <h2 className={twMerge(!revealed && 'motion-safe:opacity-0', shouldAnimate && 'reveal-fade-in')}>{title}</h2>
+            )}
             {/* Viewport */}
             <div className="relative w-full">
                 <div
@@ -124,9 +130,12 @@ const GalleryCarousel = ({ children, theme = 'dark', className }: GalleryCarouse
                                 aria-hidden={!isActive}
                                 className={twMerge(
                                     'shrink-0 h-96 cursor-pointer w-96',
+                                    !revealed && 'reveal-hidden',
+                                    shouldAnimate && 'reveal-animate',
                                     isActive && 'md:w-[42.6667rem]',
                                     hasMounted && 'motion-safe:transition-[width] motion-safe:duration-500 motion-safe:ease-in-out',
                                 )}
+                                style={shouldAnimate ? { animationDelay: `${200 + index * 100}ms` } : undefined}
                                 onClick={() => handleTileClick(index)}
                             >
                                 {cloneElement(
