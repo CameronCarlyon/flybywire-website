@@ -9,6 +9,13 @@ const FALLBACK_BLUR_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="8" hei
 
 export const FALLBACK_BLUR = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(FALLBACK_BLUR_SVG)}`;
 
+// One blurred dark box behind the description: big, soft and dark without stacking text-shadows, which Firefox renders blocky.
+export const DESCRIPTION_BACKDROP = 'before:pointer-events-none before:absolute before:-inset-12 before:-z-10 before:rounded-3xl before:bg-black/60 before:blur-3xl '
+    + 'before:opacity-0 motion-safe:before:transition-opacity motion-safe:before:duration-500';
+
+// Bottom gradient for text readability (static)
+export const BOTTOM_GRADIENT = 'bg-gradient-to-t from-black/60 via-transparent to-transparent';
+
 export const useCarouselTheme = (theme: CarouselTheme) => {
     const isLight = theme === 'light';
     return {

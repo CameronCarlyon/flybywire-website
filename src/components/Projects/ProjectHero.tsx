@@ -81,7 +81,6 @@ const ButtonGroup = (props: {children: ReactNode}) => (
 );
 
 const Hero = (props: ProjectHeroProps) => {
-    const reducedMotion = useReducedMotion();
     const strokeStyle: React.CSSProperties = {
         WebkitTextStroke: '3px var(--color-brand-cyan-main)',
         color: 'transparent',
@@ -110,8 +109,8 @@ const Hero = (props: ProjectHeroProps) => {
                 <div className="mx-auto max-w-prose text-center">
                     {props.projectHeading && (
                         <h4
-                            className="font-normal leading-4 text-primary motion-safe:opacity-0"
-                            style={!reducedMotion ? { animation: 'reveal-fade-in-up 0.5s ease-out 0.5s both' } : undefined}
+                            className="reveal-fade-in-up font-normal leading-4 text-primary motion-safe:opacity-0"
+                            style={{ animationDelay: '0.5s' }}
                         >
                             {props.projectHeading}
                         </h4>
@@ -120,23 +119,20 @@ const Hero = (props: ProjectHeroProps) => {
                         <h2 className="mb-6 font-semibold text-white">{props.projectSubheading}</h2>
                     )}
                     {props.projectTitle && (
-                        <div
-                            className="inline-flex items-baseline motion-safe:opacity-0"
-                            style={!reducedMotion ? { animation: 'fade-scale-in 0.5s ease-out both' } : undefined}
-                        >
+                        <div className="reveal-animate inline-flex items-baseline motion-safe:opacity-0">
                             <h1 className="text-white uppercase">{props.projectTitle}</h1>
-                            <h1 style={{ ...strokeStyle, ...(!reducedMotion ? { animation: 'reveal-glow 0.8s ease-out 0.7s both' } : {}) }}>X</h1>
+                            <h1 className="reveal-glow" style={{ ...strokeStyle, animationDelay: '0.7s' }}>X</h1>
                         </div>
                     )}
                     <p
-                        className="max-w-xl motion-safe:opacity-0"
-                        style={!reducedMotion ? { animation: 'reveal-fade-in-down 0.5s ease-out 0.5s both' } : undefined}
+                        className="reveal-fade-in-down max-w-xl motion-safe:opacity-0"
+                        style={{ animationDelay: '0.5s' }}
                     >
                         {props.projectDescription}
                     </p>
                     <div
-                        className="motion-safe:opacity-0"
-                        style={!reducedMotion ? { animation: 'reveal-fade-in 0.5s ease-out 1s both' } : undefined}
+                        className="reveal-fade-in motion-safe:opacity-0"
+                        style={{ animationDelay: '1s' }}
                     >
                         <ButtonGroup>
                             {buttons.map((button, index) => (

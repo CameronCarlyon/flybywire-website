@@ -60,8 +60,6 @@ const FeatureCarousel = ({ children, title, theme = 'dark', className }: Feature
                     {slides.map((slide, index) => {
                         const isActive = index === currentIndex;
                         const isFinale = index === total - 1;
-                        // Prioritise the first slide for LCP on initial render.
-                        const priority = index === 0;
                         return (
                             <div
                                 key={index}
@@ -77,12 +75,12 @@ const FeatureCarousel = ({ children, title, theme = 'dark', className }: Feature
                                     isActive && (isFinale ? 'w-full' : 'md:w-[42.6667rem]'),
                                     hasMounted && 'motion-safe:transition-[width] motion-safe:duration-500 motion-safe:ease-in-out',
                                 )}
-                                style={shouldAnimate ? { animationDelay: `${200 + index * 100}ms` } : undefined}
+                                style={{ animationDelay: `${200 + index * 100}ms` }}
                                 onClick={() => handleGoTo(index)}
                             >
                                 {cloneElement(
-                                    slide as React.ReactElement<{ isActive?: boolean; priority?: boolean }>,
-                                    { isActive, priority },
+                                    slide as React.ReactElement<{ isActive?: boolean }>,
+                                    { isActive },
                                 )}
                             </div>
                         );

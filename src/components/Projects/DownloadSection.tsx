@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 import Section from '../Utils/Section';
 import Container from '../Utils/Container';
 import Button from '../Button/Button';
 import useScrollReveal from '../../hooks/useScrollReveal';
-import useReducedMotion from '../../hooks/useReducedMotion';
 
 interface ButtonConfig {
     label: string;
@@ -31,7 +31,6 @@ const DownloadSectionComponent = ({
     buttons,
 }: DownloadSectionProps) => {
     const { ref, revealed, shouldAnimate } = useScrollReveal<HTMLDivElement>();
-    const reducedMotion = useReducedMotion();
 
     const defaultButtons: ButtonConfig[] = [
         { label: 'Direct Downloads', theme: 'secondary' },
@@ -47,25 +46,25 @@ const DownloadSectionComponent = ({
                 <div ref={ref} className="flex flex-col items-center gap-10">
                     {heading && (
                         <div className="flex flex-col items-center gap-4">
-                            <h2 className={`font-bold text-secondary${!revealed ? ' motion-safe:opacity-0' : ''}${shouldAnimate ? ' reveal-fade-in' : ''}`}>
-                                <span className={`inline-block${shouldAnimate ? ' shimmer-once' : ''}`}>{heading}</span>
+                            <h2 className={twMerge('font-bold text-secondary', !revealed && 'motion-safe:opacity-0', shouldAnimate && 'reveal-fade-in')}>
+                                <span className={twMerge('inline-block', shouldAnimate && 'shimmer-once')}>{heading}</span>
                             </h2>
                             <span
-                                className={`block h-1 w-16 rounded-full${!revealed ? ' motion-safe:scale-x-0' : ''}${shouldAnimate ? ' reveal-grow-horizontal' : ''}`}
+                                className={twMerge('block h-1 w-16 rounded-full', !revealed && 'motion-safe:scale-x-0', shouldAnimate && 'reveal-grow-horizontal')}
                                 style={{ background: 'linear-gradient(90deg, var(--color-brand-cyan-dark), var(--color-brand-cyan-main))' }}
                                 aria-hidden="true"
                             />
                         </div>
                     )}
                     <p
-                        className={`max-w-xl mx-auto text-center text-black/70${!revealed ? ' motion-safe:opacity-0' : ''}`}
-                        style={shouldAnimate && !reducedMotion ? { animation: 'reveal-fade-in-down 0.5s ease-out 0.2s both' } : undefined}
+                        className={twMerge('max-w-xl mx-auto text-center text-black/70', !revealed && 'motion-safe:opacity-0', shouldAnimate && 'reveal-fade-in-down')}
+                        style={{ animationDelay: '200ms' }}
                     >
                         {description}
                     </p>
                     <div
-                        className={!revealed ? 'motion-safe:opacity-0' : ''}
-                        style={shouldAnimate && !reducedMotion ? { animation: 'reveal-fade-in 0.5s ease-out 0.3s both' } : undefined}
+                        className={twMerge(!revealed && 'motion-safe:opacity-0', shouldAnimate && 'reveal-fade-in')}
+                        style={{ animationDelay: '300ms' }}
                     >
                         <ButtonGroup>
                             {buttonsToRender.map((button, index) => (

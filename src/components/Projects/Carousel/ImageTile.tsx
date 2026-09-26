@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
-import { FALLBACK_BLUR } from './CarouselPrimitives';
+import { BOTTOM_GRADIENT, DESCRIPTION_BACKDROP, FALLBACK_BLUR } from './CarouselPrimitives';
 
 type ImageTileProps = {
     title: string;
@@ -9,7 +9,6 @@ type ImageTileProps = {
     description?: string;
     className?: string;
     isActive?: boolean;
-    priority?: boolean;
     blurDataURL?: string;
 };
 
@@ -25,7 +24,6 @@ const ImageTile = ({
     description = '',
     className,
     isActive = false,
-    priority = false,
     blurDataURL,
 }: ImageTileProps) => (
     <div
@@ -51,12 +49,11 @@ const ImageTile = ({
                     sizes="(max-width: 768px) 24rem, 43rem"
                     placeholder="blur"
                     blurDataURL={blurDataURL ?? FALLBACK_BLUR}
-                    priority={priority}
                 />
             </div>
         </div>
-        {/* Gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1620]/75 via-transparent to-transparent" />
+        {/* Bottom gradient for text readability (static) */}
+        <div className={`absolute inset-0 pointer-events-none ${BOTTOM_GRADIENT}`} />
 
         {/* Content overlay — flex row, always full height of parent */}
         <div className="relative flex h-full w-full items-end">
@@ -69,12 +66,12 @@ const ImageTile = ({
 
             {/* Right side — fixed width, overflows outside when inactive */}
             <div className="relative flex h-full min-w-[18.6667rem]">
-                {/* Gradient overlay for text contrast */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0f1620]/50 pointer-events-none" />
                 {description && (
-                    <span className="relative z-10 p-4 md:p-6 text-right text-white" style={{ textShadow: '0 1px 4px #0f1620, 0 0 10px #0f1620, 0 0 30px #0f1620, 0 0 60px #0f1620' }}>
+                    <p
+                        className={twMerge('relative z-10 p-4 md:p-6 text-right text-white', DESCRIPTION_BACKDROP, isActive && 'md:before:opacity-100')}
+                    >
                         {description}
-                    </span>
+                    </p>
                 )}
             </div>
         </div>

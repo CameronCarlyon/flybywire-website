@@ -8,7 +8,6 @@ type GalleryTileProps = {
     className?: string;
     onClick?: () => void;
     isActive?: boolean;
-    priority?: boolean;
     blurDataURL?: string;
 };
 
@@ -22,7 +21,6 @@ const GalleryTile = ({
     className,
     onClick,
     isActive = false,
-    priority = false,
     blurDataURL,
 }: GalleryTileProps) => (
     <div
@@ -50,7 +48,6 @@ const GalleryTile = ({
                 sizes="(max-width: 768px) 24rem, 43rem"
                 placeholder="blur"
                 blurDataURL={blurDataURL ?? FALLBACK_BLUR}
-                priority={priority}
             />
         </div>
     </div>

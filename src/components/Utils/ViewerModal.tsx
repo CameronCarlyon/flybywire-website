@@ -66,7 +66,8 @@ const ViewerModal = ({
             wrapper.style.transformOrigin = '0 0';
             wrapper.style.transform = `translate(${panRef.current.x}px, ${panRef.current.y}px) scale(${z})`;
         }
-        container.style.cursor = z > 1 ? (isDraggingRef.current ? 'grabbing' : 'grab') : '';
+        const dragCursor = isDraggingRef.current ? 'grabbing' : 'grab';
+        container.style.cursor = z > 1 ? dragCursor : '';
     }, []);
 
     const resetZoom = useCallback(() => {
@@ -171,7 +172,7 @@ const ViewerModal = ({
     // Wheel zoom (non-passive to preventDefault)
     useEffect(() => {
         const container = containerRef.current;
-        if (!container) return;
+        if (!container) return undefined;
 
         const handleWheel = (e: WheelEvent) => {
             e.preventDefault();
@@ -254,10 +255,10 @@ const ViewerModal = ({
 
     // Slide: animate old image out and new image in simultaneously
     useLayoutEffect(() => {
-        if (!slidingOut) return;
+        if (!slidingOut) return undefined;
         const main = mainImgRef.current;
         const outgoing = outgoingRef.current;
-        if (!main || !outgoing) return;
+        if (!main || !outgoing) return undefined;
 
         const { direction } = slidingOut;
         const exitTo = direction === 'left' ? '-100%' : '100%';

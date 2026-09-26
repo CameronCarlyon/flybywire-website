@@ -38,7 +38,9 @@ const GalleryCarousel = ({ children, title, theme = 'dark', className }: Gallery
         } else {
             document.documentElement.style.overflow = '';
         }
-        return () => { document.documentElement.style.overflow = ''; };
+        return () => {
+            document.documentElement.style.overflow = '';
+        };
     }, [modalSlideIndex]);
 
     const handleNext = useCallback(() => {
@@ -115,8 +117,6 @@ const GalleryCarousel = ({ children, title, theme = 'dark', className }: Gallery
                 >
                     {slides.map((slide, index) => {
                         const isActive = index === currentIndex;
-                        // Prioritise the first slide for LCP on initial render.
-                        const priority = index === 0;
                         return (
                             <div
                                 key={index}
@@ -135,12 +135,12 @@ const GalleryCarousel = ({ children, title, theme = 'dark', className }: Gallery
                                     isActive && 'md:w-[42.6667rem]',
                                     hasMounted && 'motion-safe:transition-[width] motion-safe:duration-500 motion-safe:ease-in-out',
                                 )}
-                                style={shouldAnimate ? { animationDelay: `${200 + index * 100}ms` } : undefined}
+                                style={{ animationDelay: `${200 + index * 100}ms` }}
                                 onClick={() => handleTileClick(index)}
                             >
                                 {cloneElement(
-                                    slide as React.ReactElement<{ onClick?: () => void; isActive?: boolean; priority?: boolean }>,
-                                    { onClick: () => handleTileClick(index), isActive, priority },
+                                    slide as React.ReactElement<{ onClick?: () => void; isActive?: boolean }>,
+                                    { onClick: () => handleTileClick(index), isActive },
                                 )}
                             </div>
                         );
