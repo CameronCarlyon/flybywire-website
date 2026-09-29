@@ -142,9 +142,9 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         imageAlt="Multiple graphics of various displays on the System Display (SD), including electrical, fuel, and hydraulics."
                         watermarkText="Systems"
                         description={
-                            'Automatic CG-based fuel transfers, trim tank management, and crossfeed logic bring the complex fuel system to life. '
-                            + 'A twin-circuit Green/Yellow hydraulic architecture drives gear, doors, and flight controls, '
-                            + 'a signature departure from the three-system setup on other Airbus aircraft. This is all backed by a detailed electrical AC/DC system model.'
+                            'Automatic CG-based fuel transfers, trim tank management, and crossfeed logic bring the A380\'s complex fuel system to life. '
+                            + 'The unique twin-circuit Green/Yellow hydraulic architecture drives gear, doors, and flight controls, '
+                            + 'backed by a detailed AC/DC electrical model.'
                         }
                     />
                     <ImageTile
@@ -182,9 +182,9 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         gradient
                         title="Vertical Display (VD) and Terrain Radar"
                         description={
-                            'From climb to managed descent, a precise vertical profile respecting altitude and speed constraints at each waypoint is computed by the FMS. '
-                            + 'It is drawn live on the Vertical Display with a SimBridge-enabled terrain radar overlaid on both the ND and VD. '
-                            + 'Three independently simulated radio altimeters feed a full GPWS suite, triggering aural warnings and visual PFD alerts.'
+                            'The FMS computes a precise vertical profile respecting altitude and speed constraints at each waypoint, '
+                            + 'drawn live on the Vertical Display with a SimBridge-enabled terrain radar. '
+                            + 'Three independently simulated radio altimeters feed a full GPWS suite with aural and visual alerts.'
                         }
                         imageSrc="/svg/feature/TerrainDisplay.svg"
                         imageAlt="A graphic of the Vertical Display and Terrain Radar."
@@ -196,9 +196,9 @@ const A380X: NextPage<A380XProps> = ({ galleryImages, blurDataURLs }) => (
                         blurDataURL={blurDataURLs['/img/a380x/feature-flypadOS.webp']}
                         imageAlt="An image of the onboard Electronic Flight Bag (EFB) running FlyByWire's flyPadOS."
                         description={
-                            'The A380X features FlyByWire\'s flyPadOS Electronic Flight Bag, which handles throttle calibration for 1/2/4-axis hardware, '
-                            + 'A380-specific payload across four cabin classes, a dynamic CG and payload chart, GSX cargo and passenger sync with ULD support, '
-                            + 'multi-airstair boarding, and simrate control. All from a modern, purpose-built interface.'
+                            'The A380X features FlyByWire\'s flyPadOS EFB, handling throttle calibration, '
+                            + 'A380-specific payload across four cabin classes with a dynamic CG chart, simrate control, '
+                            + 'and GSX-sync with ULD and multi-airstair boarding. All from a modern, purpose-built interface.'
                         }
                     />
                     <FinaleTile
