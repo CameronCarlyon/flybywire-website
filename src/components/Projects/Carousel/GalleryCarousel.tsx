@@ -156,6 +156,7 @@ const GalleryCarousel = ({ children, title, theme = 'dark', className }: Gallery
                 onNext={handleNext}
                 onGoTo={handleGoTo}
                 theme={theme}
+                paused={modalSlideIndex !== null}
             />
 
             {/* Full Screen Modal */}
